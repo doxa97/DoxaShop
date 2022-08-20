@@ -1,0 +1,4 @@
+name: DoxaShop
+version: '${project.version}'
+main: fir.sec.DoxaShop
+api-version: 1.19
