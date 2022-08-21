@@ -2,3 +2,7 @@ name: DoxaShop
 version: '${project.version}'
 main: fir.sec.DoxaShop
 api-version: 1.19
+commands:
+  에르:
+    description: 에르와 관련된 명령어
+    usage: /에르 [꺼낼 금액] [꺼낼 개수]

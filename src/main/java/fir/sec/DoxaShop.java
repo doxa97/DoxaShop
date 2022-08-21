@@ -44,6 +44,30 @@ public final class DoxaShop extends JavaPlugin implements Listener {
                             money[4] = totalmoney;
                         }
                     }
+                    if (money[5] >= 1000000000){
+                        for (int totalmoney = (int) money[4]; totalmoney >= 999999999; totalmoney--){
+                            money[3] = money[3] - 1 ;
+                            money[5] = totalmoney;
+                        }
+                    }
+                    if (money[5] <= 999999999 && money[4] >= 1000000){
+                        for (int totalmoney = (int) money[4]; totalmoney >= 999999; totalmoney--){
+                            money[2] = money[2] - 1 ;
+                            money[5] = totalmoney;
+                        }
+                    }
+                    if (money[5] <= 999999 && money[4] >= 1000){
+                        for (int totalmoney = (int) money[4]; totalmoney >= 999; totalmoney--){
+                            money[1] = money[1] - 1 ;
+                            money[5] = totalmoney;
+                        }
+                    }
+                    if (money[5] <= 999 ){
+                        for (int totalmoney =  (int) money[4]; totalmoney >= 0; totalmoney--){
+                            money[0] = money[0] - 1;
+                            money[5] = totalmoney;
+                        }
+                    }
 
                     String money0 = "000";
                     String money1 = "000";
@@ -85,18 +109,18 @@ public final class DoxaShop extends JavaPlugin implements Listener {
                     if (money[3] == 0){
                         if (money[2] == 0){
                             if (money[1] == 0){
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money0+"에르"));
                             }
                             else {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money1+"," + money0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money1+"," + money0+"에르"));
                             }
                         }
                         else {
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money2+"," + money1+"," + money0));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money2+"," + money1+"," + money0+"에르"));
                         }
                     }
                     else {
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money3 +","+ money2+"," + money1+"," + money0));
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money3 +","+ money2+"," + money1+"," + money0+"에르"));
                     }
                 }
             }

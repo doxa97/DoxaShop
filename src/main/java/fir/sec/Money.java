@@ -19,7 +19,7 @@ public class Money implements Listener {
                 filename.createNewFile();
             }
             BufferedWriter w = new BufferedWriter(new FileWriter(filename));
-            w.append("보유 자산 백까지:0"+"\r\n"+"보유 자산 십만까지:0"+"\r\n"+"보유 자산 억까지:0"+"\r\n"+"보유 자산 천억까지:0"+"\r\n"+"추가금:0");
+            w.append("보유 자산 백까지:0"+"\r\n"+"보유 자산 십만까지:0"+"\r\n"+"보유 자산 억까지:0"+"\r\n"+"보유 자산 천억까지:0"+"\r\n"+"추가금:0"+"\r\n"+"차감금:0"+"\r\n"+"총 금액:0");
             w.flush();
             w.close();
         } catch (IOException ignored) {
@@ -30,7 +30,7 @@ public class Money implements Listener {
         File filename = new File("plugins/DoxaShop/Money/" + player + ".yml");
         File folder_Location1 = new File("plugins/DoxaShop/");
         File folder_Location2 = new File("plugins/DoxaShop/Money");
-        long[] money = new long[5];
+        long[] money = new long[7];
         try {
             if (!filename.exists()) {
                 folder_Location1.mkdir();
@@ -44,7 +44,7 @@ public class Money implements Listener {
                 list.add(Cutter(s));
             }
             R.close();
-            for (int count = 0; count < 4; count++) {
+            for (int count = 0; count < 6; count++) {
                 money[count] = (Long) list.get(count);
             }
             return money;
@@ -69,7 +69,8 @@ public class Money implements Listener {
                 filename.createNewFile();
             }
             BufferedWriter W = new BufferedWriter(new FileWriter(filename));
-            W.append("보유 자산 백까지:"+money[0]+"\r\n"+"보유 자산 십만까지:"+money[1]+"\r\n"+"보유 자산 억까지:"+money[2]+"\r\n"+"보유 자산 천억까지:"+money[3]+"추가금:"+money[4]);
+            W.append("보유 자산 백까지:"+money[0]+"\r\n"+"보유 자산 십만까지:"+money[1]+"\r\n"+"보유 자산 억까지:"+money[2]+"\r\n"
+                    +"보유 자산 천억까지:"+money[3]+"\r\n"+"추가금:"+money[4]+"\r\n"+"차감금:"+money[5]+"\r\n"+"총 금액:"+money[6]);
             W.flush();
             W.close();
         } catch (IOException localIoException) {
