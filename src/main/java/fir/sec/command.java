@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class command implements TabExecutor {
@@ -53,24 +54,24 @@ public class command implements TabExecutor {
                         try {
                             money = Integer.parseInt(args[0]);
                         } catch (Exception e) {
-                            player.sendMessage("Error");
+                            player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "잘못된 정수가 기입되었습니다.");
                         }
                         if (money < 0) {
-                            sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXRTS ]" + ChatColor.WHITE + "음수는 제공되지 않습니다 고객님 ^^7");
+                            sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "음수는 제공되지 않습니다 고객님 ^^7");
                         } else {
-                            if (stat[4] > money) {
+                            if (stat[6] > money) {
                                 ItemStack paper = new ItemStack(Material.PAPER);
                                 ItemMeta im = paper.getItemMeta();
                                 assert im != null;
-                                im.setDisplayName(ChatColor.DARK_AQUA + "[ DOXRTS ] " + ChatColor.WHITE + args[0] + " 골드");
+                                im.setDisplayName(ChatColor.DARK_AQUA + "[ DOXSHOP ] " + ChatColor.WHITE + args[0] + " 골드");
                                 im.setLore(Arrays.asList(ChatColor.GRAY+"전 지역에서 활발하게 사용되는 화폐이다.",ChatColor.GRAY+"재질은 아르킨 제국의 하프의 털로 만들어져 부드럽다."));
                                 paper.setItemMeta(im);
                                 player.getInventory().addItem(paper);
-                                stat[4] = stat[4] - money;
+                                stat[5] = money;
                                 Money.setMoney(player.getUniqueId().toString(), stat);
                             }
                             else {
-                                sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXRTS ]" + ChatColor.WHITE + "돈이 부족합니다.");
+                                sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "돈이 부족합니다.");
                             }
                         }
                     }
@@ -84,25 +85,25 @@ public class command implements TabExecutor {
                             money = Integer.parseInt(args[0]);
                             num = Integer.parseInt(args[1]);
                         } catch (Exception e) {
-                            p.sendMessage("Error");
+                            p.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "잘못된 정수가 기입되었습니다.");
                         }
                         if (money < 0) {
-                            sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXRTS ]" + ChatColor.WHITE + "음수는 제공되지 않습니다 고객님 ^^7");
+                            sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "음수는 제공되지 않습니다 고객님 ^^7");
                         } else {
-                            if (money < stat[4]){
+                            if (money < stat[6]){
                                 ItemStack paper = new ItemStack(Material.PAPER);
                                 ItemMeta im = paper.getItemMeta();
                                 assert im != null;
-                                im.setDisplayName(ChatColor.DARK_AQUA + "[ DOXRTS ] " + ChatColor.WHITE + args[0] + " 골드");
+                                im.setDisplayName(ChatColor.DARK_AQUA + "[ DOXSHOP ] " + ChatColor.WHITE + args[0] + " 골드");
                                 im.setLore(Arrays.asList(ChatColor.GRAY+"전 지역에서 활발하게 사용되는 화폐이다.",ChatColor.GRAY+"재질은 아르킨 제국의 하프의 털로 만들어져 부드럽다."));
                                 paper.setItemMeta(im);
                                 for (int i = 0; i < num; i++) {
                                     p.getInventory().addItem(paper);
                                 }
-                                stat[4] = stat[4] - ((long) money * num);
+                                stat[5] = ((long) money * num);
                                 Money.setMoney(p.getUniqueId().toString(), stat);
                             }else {
-                                sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXRTS ]" + ChatColor.WHITE + "돈이 부족합니다.");
+                                sender.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "돈이 부족합니다.");
                             }
                         }
                     }
@@ -114,7 +115,64 @@ public class command implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-
+        Player player = (Player) sender;
+        if (args.length == 0){
+            return Collections.singletonList("에르");
+        }
+        else if (command.getName().equals("에르")){
+            if (player.isOp()){
+                if (args.length == 1){
+                    return Arrays.asList("설정","< 꺼낼 금액 >");
+                }
+                else if (args.length == 2){
+                    if (args[0].equals("설정")){
+                        return Arrays.asList("+","=","-");
+                    }
+                }
+            }
+            else if (args.length == 1){
+                return Collections.singletonList("< 꺼낼 금액 >");
+            }
+            else if (args.length == 2){
+                return Collections.singletonList("< 꺼낼 개수 >");
+            }
+        }
         return null;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

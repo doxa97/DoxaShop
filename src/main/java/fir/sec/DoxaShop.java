@@ -14,12 +14,12 @@ public final class DoxaShop extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new Money(),this);
         getServer().getPluginManager().registerEvents(new Join(),this);
+        getServer().getPluginManager().registerEvents(new Interact(),this);
         getLogger().info("Doxa Shop On");
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player player : getServer().getOnlinePlayers()){
                 long[] money = Money.getMoney(player.getUniqueId().toString());
                 if (!(money == null)) {
-
                     if (money[4] >= 1000000000){
                         for (int totalmoney = (int) money[4]; totalmoney >= 999999999; totalmoney--){
                             money[3] = money[3] + 1 ;
@@ -122,6 +122,30 @@ public final class DoxaShop extends JavaPlugin implements Listener {
                     else {
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("보유 자산 : " + money3 +","+ money2+"," + money1+"," + money0+"에르"));
                     }
+                    String total;
+                    if (money[3] == 0){
+                        if (money[2] == 0){
+                            if (money[1] == 0){
+                                if (money[0] == 0){
+                                    total = "0";
+                                }
+                                else {
+                                    total = String.valueOf(money[0]);
+                                }
+                            }
+                            else {
+                                total = money[1] +""+ money[0];
+                            }
+                        }
+                        else {
+                            total = money[2] +""+ money[1] +""+ money[0];
+                        }
+                    }
+                    else {
+                        total = money[3] + "" + money[2] + "" + money[1] + "" + money[0];
+                    }
+                    money[6] = Long.parseLong(total);
+
                 }
             }
         },0,0);
