@@ -2,6 +2,7 @@ package fir.sec;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,8 +48,6 @@ public class Interact implements Listener {
 
     @EventHandler
     public void ChestClick(InventoryClickEvent event) {
-
-
         if (event.getView().getTitle().contains("상점")) {
             Player player = (Player) event.getWhoClicked();
             long[] money= Money.getMoney(player.getUniqueId().toString());
@@ -105,6 +104,24 @@ public class Interact implements Listener {
                                 }
 
                             }
+                            else if (ClickItem.get(i).contains("학습 비용 : ")){
+                                Material material = event.getCurrentItem().getType();
+                                NamespacedKey name = material.getKey();
+                                if (player.hasDiscoveredRecipe(name)){
+                                    player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "이미 학습한 내용입니다. 아니면 벌써 까먹으신건가요?");
+                                } else {
+                                    int Money = Integer.parseInt(ClickItem.get(i).replace("학습 비용 : ","").replace(",",""));
+                                    if  (Money >= money[6]){
+                                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "보유 자산이 부족합니다.");
+                                    }
+                                    else {
+                                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "학습에 성공하였습니다.");
+                                        money[4] = Money;
+
+                                        player.performCommand("recipe give "+player.getName()+" "+material);
+                                    }
+                                }
+                            }
                         }
                         else if (event.isRightClick()){
                             if (ClickItem.get(i).contains("구매 금액 : ")){
@@ -125,8 +142,6 @@ public class Interact implements Listener {
                 }
             }
         }
-
-
     }
 
 }
