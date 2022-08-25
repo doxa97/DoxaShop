@@ -3,22 +3,27 @@ package fir.sec;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PiglinBarterEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class Interact implements Listener {
 
     @EventHandler
-    public void RightClick(PlayerInteractEvent e){
+    public void BlockAndItemClick(PlayerInteractEvent e){
         Player p = e.getPlayer();
         Action a = e.getAction();
         if(a == Action.RIGHT_CLICK_AIR){
@@ -47,6 +52,37 @@ public class Interact implements Listener {
     }
 
     @EventHandler
+    public void EntityClick(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        Entity entity = event.getRightClicked();
+        if (entity.getType() == EntityType.VILLAGER){
+            if (!(entity.getName().contains(player.getName()))){
+                event.setCancelled(true);
+                Random random = new Random();
+                switch (random.nextInt(5)+1){
+                    case 1 :
+                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "해당 주민이 당신과 말하기를 싫어합니다.");
+                    case 2 :
+                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "당신은 해당 주민의 주인이 아닙니다.");
+                    case 3 :
+                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "주민은 당신을 무시합니다.");
+                    case 4 :
+                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "주민은 당신과는 거래할 품목이 없다고 합니다.");
+                    case 5 :
+                        player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "모르는 사람과는 대화할 수 없다고 합니다.");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void Piglin(PiglinBarterEvent event) {
+        event.setCancelled(true);
+        ItemStack item = new ItemStack(Material.AIR);
+        event.getInput().setType(item.getType());
+    }
+
+    @EventHandler
     public void ChestClick(InventoryClickEvent event) {
         if (event.getView().getTitle().contains("상점")) {
             Player player = (Player) event.getWhoClicked();
@@ -69,7 +105,6 @@ public class Interact implements Listener {
                                     player.getInventory().addItem(item);
                                 }
                             }
-
                         }
                     }
                     else if (event.isRightClick()){
@@ -102,7 +137,6 @@ public class Interact implements Listener {
                                     ItemStack item = new ItemStack(material);
                                     player.getInventory().addItem(item);
                                 }
-
                             }
                             else if (ClickItem.get(i).contains("학습 비용 : ")){
                                 Material material = event.getCurrentItem().getType();
@@ -121,30 +155,40 @@ public class Interact implements Listener {
                                         player.performCommand("recipe give "+player.getName()+" "+material);
                                     }
                                 }
-                            }
-                        }
-                        else if (event.isRightClick()){
-                            if (ClickItem.get(i).contains("구매 금액 : ")){
-                                int Money = Integer.parseInt(ClickItem.get(i).replace("구매 금액 : ","").replace(",",""));
-                                Material material = event.getCurrentItem().getType();
-                                ItemStack item = new ItemStack(material);
-                                if  (item.getAmount() < 1) {
-                                    player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "판매할 물품이 없습니다.");
-                                }else {
-                                    player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "구매에 성공하였습니다.");
-                                    money[5] = Money;
-                                    player.getInventory().remove(item);
+                            } else if (ClickItem.get(i).contains("고용 비용 : ")) {
+                                int Money = Integer.parseInt(ClickItem.get(i).replace("고용 비용 : ","").replace(",",""));
+                                if  (Money >= money[6]){
+                                    player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "보유 자산이 부족합니다.");
+                                }
+                                else {
+                                    player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "주민 고용에 성공하였습니다.");
+                                    money[4] = Money;
+                                    ItemStack itemStack = new ItemStack(Material.VILLAGER_SPAWN_EGG);
                                 }
                             }
                         }
                     }
-                    player.updateInventory();
+                    else if (event.isRightClick()){
+                        if (ClickItem.get(i).contains("구매 금액 : ")){
+                            int Money = Integer.parseInt(ClickItem.get(i).replace("구매 금액 : ","").replace(",",""));
+                            Material material = event.getCurrentItem().getType();
+                            ItemStack item = new ItemStack(material);
+                            if  (item.getAmount() < 1) {
+                                player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "판매할 물품이 없습니다.");
+                            }else {
+                                player.sendMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "구매에 성공하였습니다.");
+                                money[5] = Money;
+                                player.getInventory().remove(item);
+                            }
+                        }
+                    }
                 }
+                player.updateInventory();
             }
         }
     }
-
 }
+
 
 
 

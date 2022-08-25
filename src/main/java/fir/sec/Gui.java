@@ -18,6 +18,21 @@ public class Gui implements Listener {
         Objects.requireNonNull(item_Meta).setDisplayName(Display);
         item_Meta.setLore(Arrays.asList("[ "+material+" ]"));
         item.setItemMeta(item_Meta);
+    }
 
+    public void SpawnItem(String Display, Material material, int buy, int sell) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta item_Meta = item.getItemMeta();
+        Objects.requireNonNull(item_Meta).setDisplayName(Display);
+        item_Meta.setLore(Arrays.asList("[ " + material + " ]"));
+        item.setItemMeta(item_Meta);
+    }
+
+    public void Recipe(String Display, Material material, int buy, int sell) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta item_Meta = item.getItemMeta();
+        Objects.requireNonNull(item_Meta).setDisplayName(Display);
+        item_Meta.setLore(Arrays.asList("[ " + material + " ]"));
+        item.setItemMeta(item_Meta);
     }
 }
