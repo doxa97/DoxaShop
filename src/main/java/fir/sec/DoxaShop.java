@@ -15,6 +15,7 @@ public final class DoxaShop extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Money(),this);
         getServer().getPluginManager().registerEvents(new Join(),this);
         getServer().getPluginManager().registerEvents(new Interact(),this);
+        getServer().getPluginManager().registerEvents(new Death(), this);
         getLogger().info("Doxa Shop On");
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player player : getServer().getOnlinePlayers()){

@@ -65,6 +65,7 @@ public class command implements TabExecutor {
                                 assert im != null;
                                 im.setDisplayName(ChatColor.DARK_AQUA + "[ DOXSHOP ] " + ChatColor.WHITE + args[0] + " 에르");
                                 im.setLore(Arrays.asList(ChatColor.GRAY+"전 지역에서 활발하게 사용되는 화폐이다.",ChatColor.GRAY+"재질은 아르킨 제국의 하프의 털로 만들어져 부드럽다."));
+                                im.setCustomModelData(1);
                                 paper.setItemMeta(im);
                                 player.getInventory().addItem(paper);
                                 stat[5] = money;
@@ -96,6 +97,7 @@ public class command implements TabExecutor {
                                 assert im != null;
                                 im.setDisplayName(ChatColor.DARK_AQUA + "[ DOXSHOP ] " + ChatColor.WHITE + args[0] + " 에르");
                                 im.setLore(Arrays.asList(ChatColor.GRAY+"전 지역에서 활발하게 사용되는 화폐이다.",ChatColor.GRAY+"재질은 아르킨 제국의 하프의 털로 만들어져 부드럽다."));
+                                im.setCustomModelData(1);
                                 paper.setItemMeta(im);
                                 for (int i = 0; i < num; i++) {
                                     p.getInventory().addItem(paper);

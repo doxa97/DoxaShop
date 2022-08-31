@@ -1,5 +1,7 @@
 package fir.sec;
 
+import net.md_5.bungee.api.ChatMessageType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -31,21 +33,29 @@ public class Interact implements Listener {
                 ItemStack total = p.getEquipment().getItemInMainHand();
                 ItemMeta paper = total.getItemMeta();
                 if (Objects.requireNonNull(paper).getDisplayName().contains("에르")) {
-                    paper.setDisplayName(paper.getDisplayName().replace("[ DOXSHOP ] ", "").replace(" 에르", ""));
-                    int money = Integer.parseInt(ChatColor.stripColor(paper.getDisplayName()));
-                    long[] stat;
-                    stat = Money.getMoney(p.getUniqueId().toString());
-                    stat[4] = money;
-                    Money.setMoney(p.getUniqueId().toString(), stat);
-                    ItemStack is = p.getInventory().getItemInMainHand();
-                    ItemStack air = new ItemStack(Material.AIR);
-                    if (is.getAmount() > 1){
-                        is.setAmount(is.getAmount()-1);
-                    }else {
-                        p.getEquipment().setItemInMainHand(air);
+                    if (total.getType() == Material.PAPER) {
+                        if (!(paper.getCustomModelData() == 1)) {
+                            paper.setDisplayName(paper.getDisplayName().replace("[ DOXSHOP ] ", "").replace(" 에르", ""));
+                            int money = Integer.parseInt(ChatColor.stripColor(paper.getDisplayName()));
+                            long[] stat;
+                            stat = Money.getMoney(p.getUniqueId().toString());
+                            stat[4] = money;
+                            Money.setMoney(p.getUniqueId().toString(), stat);
+                            ItemStack is = p.getInventory().getItemInMainHand();
+                            ItemStack air = new ItemStack(Material.AIR);
+                            if (is.getAmount() > 1) {
+                                is.setAmount(is.getAmount() - 1);
+                            } else {
+                                p.getEquipment().setItemInMainHand(air);
+                            }
+                            p.getInventory().setItemInHand(is);
+                            p.updateInventory();
+                        }
+                        else {Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "위조 지폐를 사용한 사람이 발각되었습니다."
+                        +"\r\n"+ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "위조 플레이어 : "+ p.getName()
+                        +"\r\n"+ChatColor.DARK_AQUA + "[ DOXSHOP ]" + ChatColor.WHITE + "다른 플레이어에게 받은 돈이라면 즉시 신고바랍니다.");
+                        }
                     }
-                    p.getInventory().setItemInHand(is);
-                    p.updateInventory();
                 }
             }
         }
